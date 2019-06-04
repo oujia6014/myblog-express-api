@@ -4,10 +4,11 @@ var cookieParser = require('cookie-parser'); // cookie处理
 var logger = require('morgan'); // 日志记录
 // var path = require('path'); // 本地文件路径
 
-// 引入路由文件
+// 引入子路由
 var indexRouter = require('./routes');
 var usersRouter = require('./routes/users');
-
+const blogRouter = require('./routes/blog');
+const userRouter = require('./routes/user');
 
 // 单次link 单例 实例
 var app = express();
@@ -22,9 +23,11 @@ app.use(express.urlencoded({extended: false}));
 // 使用cookie
 app.use(cookieParser());
 
-// 注册路由
+// 注册副路由,加载子路由
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/blog',blogRouter);
+app.use('/api/user',userRouter);
 
 // 没注册的路由返回404
 app.use(function (req, res, next) {
