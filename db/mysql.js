@@ -22,6 +22,5 @@ function exec(sql) {
 }
 
 module.exports = {
-    exec,
-    exscape: mysql.escape
+    exec
 }

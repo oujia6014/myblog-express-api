@@ -7,9 +7,9 @@ if (env === 'dev') {
     MYSQL_CONF = {
         host: '127.0.0.1',
         user: 'root',
-        password: '123456',
+        password: '1234567a',
         prot: '3306',
-        database: 'myblog'
+        database: 'myBlog'
     }
     REDIS_CONF = {
         prot:6379,
@@ -20,9 +20,9 @@ if (env === 'production') {
     MYSQL_CONF = {
         host: '127.0.0.1',
         user: 'root',
-        password: '123456',
+        password: '1234567a',
         prot: '3306',
-        database: 'myblog'
+        database: 'myBlog'
     }
     REDIS_CONF = {
         prot:6379,
