@@ -1,12 +1,21 @@
 var express = require('express');
 var router = express.Router();
-const {getList,getDetail,newBlog,updateBlog,delBlog} = require('../controller/blog');
+const {getList, getDetail, newBlog, updateBlog, delBlog} = require('../controller/blog');
 
 router.get('/list', function (req, res, next) {
-    const author = req.query.author || '';
+    let author = req.query.author || '';
     const keywork = req.query.keywork || '';
+
+    if (req.query.isadmin) {
+        if (req.session.username == null) {
+            res.json('未登陆')
+            return
+        }
+        author = req.session.username
+    }
+
     const result = getList(author, keywork);
-    return result.then(listdata =>{
+    return result.then(listdata => {
         res.json({
             data: JSON.parse(JSON.stringify(listdata))
         })
