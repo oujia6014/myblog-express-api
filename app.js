@@ -1,21 +1,34 @@
-var createError = require('http-errors');// 404处理
-var express = require('express');// 框架
-var cookieParser = require('cookie-parser'); // cookie处理
-var logger = require('morgan'); // 日志记录
-// var path = require('path'); // 本地文件路径
-var session = require('express-session');
-var RedisStore = require('connect-redis')(session);
-var redisClient = require('./db/redis');
+const createError = require('http-errors') // 404处理
+const express = require('express') // 框架
+const cookieParser = require('cookie-parser') // cookie处理
+const logger = require('morgan') // 日志记录
+const path = require('path') // 本地文件路径
+const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
+const redisClient = require('./db/redis');
+const fs = require('fs')
+
 
 // 引入子路由
-const blogRouter = require('./routes/blog');
-const userRouter = require('./routes/user');
+const blogRouter = require('./routes/blog')
+const userRouter = require('./routes/user')
 
 // 单次link 单例 实例
-var app = express();
+var app = express()
 
 // 日志输出
-app.use(logger('dev'));
+const ENV = process.env.NODE_ENV
+if (ENV !== 'production') {
+    app.use(logger('dev'));
+} else {
+    const logFileName = path.join(__dirname, 'logs', 'access.log')
+    const writeStream = fs.createWriteStream(logFileName, {
+        flags: 'a'
+    })
+    app.use(logger('combined', {
+        stream: writeStream
+    }))
+}
 
 // 数据兼容, 解析
 app.use(express.json());
